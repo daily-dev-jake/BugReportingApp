@@ -25,14 +25,19 @@ namespace BugRIP.API.Functions
 
 		[FunctionName("ReportBugFunction")]
         public async Task<IActionResult> Run(
-            [HttpTrigger(AuthorizationLevel.Anonymous, "post", Route = "bugs")] HttpRequest req)
+            [HttpTrigger(AuthorizationLevel.Anonymous, "post", Route = "bugs")] ReportedBugRequest request)
         {
 
-			NewBug newBug = new NewBug("Bad bug", "The div on page is not centered");
+			NewBug newBug = new NewBug(request.Summary, request.Description);
 
 			ReportedBug reportedBug = await _createGithubIssueCommand.Execute(newBug);
 
-			return new OkObjectResult(reportedBug);
+			return new OkObjectResult(new ReportedBugResponse()
+            {
+                Id = reportedBug.Id,
+                Summary = reportedBug.Summary,
+                Description = reportedBug.Description,
+            });
         }
     }
 }

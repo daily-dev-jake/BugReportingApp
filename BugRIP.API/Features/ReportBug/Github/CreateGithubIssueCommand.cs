@@ -22,7 +22,7 @@ namespace BugRIP.API.Features.ReportBug.Github
 			_logger.LogInformation($"{_commandType}");
 
 			//TODO: Create Github Issue
-			ReportedBug reportedBug = new ReportedBug("1", "Bad bug", "The div on page is not centered");
+			ReportedBug reportedBug = new ReportedBug("1", newBug.Summary, newBug.Description);
 
 			string successState = isSuccessful ? "Successful" : "Not Successful";
 			_logger.LogInformation($"{_commandType} # {reportedBug.Id} is " + successState);
