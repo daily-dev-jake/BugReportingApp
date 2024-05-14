@@ -28,7 +28,7 @@ namespace BugRIP.API.Functions
             [HttpTrigger(AuthorizationLevel.Anonymous, "post", Route = "bugs")] ReportedBugRequest request)
         {
 
-			NewBug newBug = new NewBug(request.Summary, request.Description);
+			NewBug newBug = new NewBug(request.Description, request.Summary);
 
 			ReportedBug reportedBug = await _createGithubIssueCommand.Execute(newBug);
 
