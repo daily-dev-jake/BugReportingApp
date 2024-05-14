@@ -12,7 +12,14 @@ namespace BugRIP.API.Functions
 {
     public class ReportBugFunction
     {
-        [FunctionName("ReportBugFunction")]
+        private readonly ILogger<ReportBugFunction> _logger;
+        
+		public ReportBugFunction(ILogger<ReportBugFunction> logger)
+		{
+			_logger = logger;
+		}
+
+		[FunctionName("ReportBugFunction")]
         public async Task<IActionResult> Run(
             [HttpTrigger(AuthorizationLevel.Anonymous, "post", Route = "bugs")] HttpRequest req)
         {
