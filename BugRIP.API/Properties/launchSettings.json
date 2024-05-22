@@ -2,8 +2,7 @@
   "profiles": {
     "BugRIP.API": {
       "commandName": "Project",
-      "commandLineArgs": "--port 7099",
-      "launchBrowser": false
+      "commandLineArgs": "host start --pause-on-error --port 5800"
     }
   }
 }

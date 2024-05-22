@@ -1,4 +1,7 @@
 ﻿using BugRIP.API.Features.ReportBug.Github;
+using FirebaseAdmin;
+using FirebaseAdminAuthentication.DependencyInjection.Extensions;
+using Google.Apis.Auth.OAuth2;
 using Microsoft.Azure.Functions.Extensions.DependencyInjection;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -20,7 +23,14 @@ namespace BugRIP.API
 			IConfiguration configuration = builder.GetContext().Configuration;
 
 			string githubToken = configuration.GetValue<string>("GITHUB_TOKEN");
-
+			
+			string firebaseConfig = configuration.GetValue<string>("FIREBASE_CONFIG");
+			FirebaseApp firebaseApp = FirebaseApp.Create(new AppOptions()
+			{
+				Credential = GoogleCredential.FromJson(firebaseConfig),
+			});
+			builder.Services.AddSingleton(firebaseApp);
+			builder.Services.AddFirebaseAuthentication();
 			builder.Services.Configure((Action<GithubRepositoryOptions>)(options =>
 			{
 				options.Owner = configuration.GetValue<string>("GITHUB_REPOSITORY_OWNER");
